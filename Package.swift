@@ -13,7 +13,7 @@ let package = Package(
             targets: ["BitcoinKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/horizontalsystems/BitcoinCore.Swift.git", .upToNextMajor(from: "1.0.0")),
+        .package(url: "https://github.com/moneyclip-io/BitcoinCore.Swift.git", branch: "feat/modify-checkpoint-to-accept-block"),
         .package(url: "https://github.com/horizontalsystems/HdWalletKit.Swift.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/horizontalsystems/Hodler.Swift.git", .upToNextMajor(from: "1.0.0")),
         .package(url: "https://github.com/horizontalsystems/HsToolKit.Swift.git", .upToNextMajor(from: "1.0.0")),

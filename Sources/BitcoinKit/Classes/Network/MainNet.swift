@@ -14,6 +14,7 @@ public class MainNet: INetwork {
     public let coinType: UInt32 = 0
     public let sigHash: SigHashType = .bitcoinAll
     public var syncableFromApi: Bool = true
+    public let providedBlock: Block?
 
     public let dnsSeeds = [
         "x5.seed.bitcoin.sipa.be",             // Pieter Wuille
@@ -28,6 +29,8 @@ public class MainNet: INetwork {
 
     public let dustRelayTxFee = 3000 //  https://github.com/bitcoin/bitcoin/blob/master/src/policy/policy.h#L52
 
-    public init() {}
+    public init(providedBlock: Block?) {
+        self.providedBlock = providedBlock
+    }
 
 }

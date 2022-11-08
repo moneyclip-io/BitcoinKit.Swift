@@ -20,7 +20,7 @@ public class Kit: AbstractKit {
         }
     }
 
-    public convenience init(seed: Data, purpose: Purpose, walletId: String, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+    public convenience init(seed: Data, purpose: Purpose, walletId: String, providedBlock: Block?, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let version: HDExtendedKeyVersion
         switch purpose {
         case .bip44: version = .xprv
@@ -30,27 +30,28 @@ public class Kit: AbstractKit {
         let masterPrivateKey = HDPrivateKey(seed: seed, xPrivKey: version.rawValue)
 
         try self.init(extendedKey: .private(key: masterPrivateKey),
-                walletId: walletId,
-                syncMode: syncMode,
-                networkType: networkType,
-                confirmationsThreshold: confirmationsThreshold,
-                logger: logger)
+                      walletId: walletId,
+                      providedBlock: providedBlock,
+                      syncMode: syncMode,
+                      networkType: networkType,
+                      confirmationsThreshold: confirmationsThreshold,
+                      logger: logger)
     }
 
-    public init(extendedKey: HDExtendedKey, walletId: String, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+    public init(extendedKey: HDExtendedKey, walletId: String, providedBlock: Block?, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let network: INetwork
         let logger = logger ?? Logger(minLogLevel: .verbose)
 
         let initialSyncApi: ISyncTransactionApi?
         switch networkType {
             case .mainNet:
-                network = MainNet()
+            network = MainNet(providedBlock: providedBlock)
                 initialSyncApi = BlockchainComApi(url: "https://blockchain.info", hsUrl: "https://api.blocksdecoded.com/v1/blockchains/bitcoin", logger: logger)
             case .testNet:
-                network = TestNet()
+            network = TestNet(providedBlock: providedBlock)
                 initialSyncApi = BCoinApi(url: "https://btc-testnet.horizontalsystems.xyz/api", logger: logger)
             case .regTest:
-                network = RegTest()
+            network = RegTest(providedBlock: providedBlock)
                 initialSyncApi = nil
         }
 

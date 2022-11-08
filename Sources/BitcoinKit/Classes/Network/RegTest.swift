@@ -14,6 +14,7 @@ class RegTest: INetwork {
     let coinType: UInt32 = 1
     let sigHash: SigHashType = .bitcoinAll
     var syncableFromApi: Bool = false
+    let providedBlock: Block?
 
     let dnsSeeds = [
          "btc-regtest.horizontalsystems.xyz",
@@ -23,4 +24,9 @@ class RegTest: INetwork {
     ]
 
     let dustRelayTxFee = 3000 // https://github.com/bitcoin/bitcoin/blob/c536dfbcb00fb15963bf5d507b7017c241718bf6/src/policy/policy.h#L50
+    
+    init(providedBlock: Block?) {
+        self.providedBlock = providedBlock
+    }
+    
 }
