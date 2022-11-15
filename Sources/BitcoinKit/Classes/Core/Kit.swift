@@ -5,7 +5,7 @@ import Hodler
 import RxSwift
 import HsToolKit
 
-public class Kit: AbstractKit {
+public final class Kit: AbstractKit {
     private static let heightInterval = 2016                                    // Default block count in difficulty change circle ( Bitcoin )
     private static let targetSpacing = 10 * 60                                  // Time to mining one block ( 10 min. Bitcoin )
     private static let maxTargetBits = 0x1d00ffff                               // Initially and max. target difficulty for blocks
