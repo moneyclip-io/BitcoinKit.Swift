@@ -144,6 +144,11 @@ extension Kit {
     public struct APIInfo {
         let url: String
         let authKey: String
+        
+        public init(url: String, authKey: String) {
+            self.url = url
+            self.authKey = authKey
+        }
     }
     
 }
