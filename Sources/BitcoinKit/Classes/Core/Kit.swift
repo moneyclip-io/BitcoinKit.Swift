@@ -20,7 +20,7 @@ public final class Kit: AbstractKit {
         }
     }
 
-    public convenience init(seed: Data, purpose: Purpose, walletId: String, providedBlock: Block?, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, authKey: String? = nil, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+    public convenience init(seed: Data, purpose: Purpose, walletId: String, providedBlock: Block?, apiInfo: APIInfo? = nil, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, authKey: String? = nil, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let version: HDExtendedKeyVersion
         switch purpose {
         case .bip44: version = .xprv
@@ -32,6 +32,7 @@ public final class Kit: AbstractKit {
         try self.init(extendedKey: .private(key: masterPrivateKey),
                       walletId: walletId,
                       providedBlock: providedBlock,
+                      apiInfo: apiInfo,
                       syncMode: syncMode,
                       networkType: networkType,
                       confirmationsThreshold: confirmationsThreshold,
