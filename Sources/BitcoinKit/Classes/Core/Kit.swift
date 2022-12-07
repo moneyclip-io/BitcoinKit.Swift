@@ -49,7 +49,7 @@ public final class Kit: AbstractKit {
             network = MainNet(providedBlock: providedBlock)
             let baseUrl = apiInfo.baseUrl
             let authKey = apiInfo.authKey
-            let hsUrl = baseUrl + "/blockchainapi/bitcoin/mainnet"
+            let hsUrl = baseUrl + "/bitcoin/mainnet"
             initialSyncApi = BlockchainComApi(url: "https://blockchain.info", hsUrl: hsUrl, jwtUrl: baseUrl, authKey: authKey, logger: logger)
         case .testNet:
             network = TestNet(providedBlock: providedBlock)
