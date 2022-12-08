@@ -20,7 +20,7 @@ public final class Kit: AbstractKit {
         }
     }
 
-    public convenience init(seed: Data, purpose: Purpose, walletId: String, providedBlock: Block?, apiInfo: APIInfo? = nil, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+    public convenience init(seed: Data, purpose: Purpose, walletId: String, providedBlock: Block?, apiInfo: APIInfo, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let version: HDExtendedKeyVersion
         switch purpose {
         case .bip44: version = .xprv
@@ -39,7 +39,7 @@ public final class Kit: AbstractKit {
                       logger: logger)
     }
 
-    public init(extendedKey: HDExtendedKey, walletId: String, providedBlock: Block?, apiInfo: APIInfo? = nil, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
+    public init(extendedKey: HDExtendedKey, walletId: String, providedBlock: Block?, apiInfo: APIInfo, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let network: INetwork
         let logger = logger ?? Logger(minLogLevel: .verbose)
         
@@ -50,12 +50,7 @@ public final class Kit: AbstractKit {
             initialSyncApi = BlockchainComApi(url: "https://blockchain.info", hsUrl: "https://api.blocksdecoded.com/v1/blockchains/bitcoin", logger: logger)
         case .testNet:
             network = TestNet(providedBlock: providedBlock)
-            
-            if let apiInfo = apiInfo {
-                initialSyncApi = BlockchainApi(url: apiInfo.url, authKey: apiInfo.authKey, logger: logger)
-            } else {
-                initialSyncApi = BCoinApi(url: "https://btc-testnet.horizontalsystems.xyz/api", logger: logger)
-            }
+            initialSyncApi = BCoinApi(url: apiInfo.url, authKey: apiInfo.authKey, logger: logger)
         case .regTest:
             network = RegTest(providedBlock: providedBlock)
             initialSyncApi = nil
