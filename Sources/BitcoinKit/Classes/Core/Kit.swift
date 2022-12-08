@@ -53,7 +53,7 @@ public final class Kit: AbstractKit {
             initialSyncApi = BlockchainComApi(url: "https://blockchain.info", hsUrl: hsUrl, jwtUrl: baseUrl, authKey: authKey, logger: logger)
         case .testNet:
             network = TestNet(providedBlock: providedBlock)
-            initialSyncApi = BlockchainApi(baseUrl: apiInfo.baseUrl, authKey: apiInfo.authKey, logger: logger)
+            initialSyncApi = BCoinApi(url: apiInfo.baseUrl, authKey: apiInfo.authKey, logger: logger)
         case .regTest:
             network = RegTest(providedBlock: providedBlock)
             initialSyncApi = nil
