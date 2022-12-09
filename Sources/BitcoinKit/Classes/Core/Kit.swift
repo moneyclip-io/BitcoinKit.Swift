@@ -38,7 +38,7 @@ public final class Kit: AbstractKit {
                       confirmationsThreshold: confirmationsThreshold,
                       logger: logger)
     }
-
+    
     public init(extendedKey: HDExtendedKey, walletId: String, providedBlock: Block?, apiInfo: APIInfo, syncMode: BitcoinCore.SyncMode = .api, networkType: NetworkType = .mainNet, confirmationsThreshold: Int = 6, logger: Logger?) throws {
         let network: INetwork
         let logger = logger ?? Logger(minLogLevel: .verbose)
@@ -47,10 +47,13 @@ public final class Kit: AbstractKit {
         switch networkType {
         case .mainNet:
             network = MainNet(providedBlock: providedBlock)
-            initialSyncApi = BlockchainComApi(url: "https://blockchain.info", hsUrl: "https://api.blocksdecoded.com/v1/blockchains/bitcoin", logger: logger)
+            let baseUrl = apiInfo.baseUrl
+            let authKey = apiInfo.authKey
+            let hsUrl = baseUrl + "/bitcoin/mainnet"
+            initialSyncApi = BlockchainComApi(url: "https://blockchain.info", hsUrl: hsUrl, jwtUrl: baseUrl, authKey: authKey, logger: logger)
         case .testNet:
             network = TestNet(providedBlock: providedBlock)
-            initialSyncApi = BCoinApi(url: apiInfo.url, authKey: apiInfo.authKey, logger: logger)
+            initialSyncApi = BCoinApi(url: apiInfo.baseUrl, authKey: apiInfo.authKey, logger: logger)
         case .regTest:
             network = RegTest(providedBlock: providedBlock)
             initialSyncApi = nil
@@ -137,11 +140,11 @@ extension Kit {
 extension Kit {
     
     public struct APIInfo {
-        let url: String
+        let baseUrl: String
         let authKey: String
         
-        public init(url: String, authKey: String) {
-            self.url = url
+        public init(baseUrl: String, authKey: String) {
+            self.baseUrl = baseUrl
             self.authKey = authKey
         }
     }
